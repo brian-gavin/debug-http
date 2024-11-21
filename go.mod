@@ -1,3 +1,3 @@
-module debug-http
+module github.com/brian-gavin/debug-http
 
-go 1.16
+go 1.23.0
