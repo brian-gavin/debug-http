@@ -4,8 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"maps"
 	"net/http"
 	"os"
+	"slices"
 	"strings"
 )
 
@@ -29,7 +31,8 @@ func (p printer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	b, _ = json.MarshalIndent(o, "", "  ")
 	fmt.Println("-----request-----")
 	fmt.Printf("%s %s %s\n", r.Proto, r.Method, r.URL.String())
-	for k, v := range r.Header {
+	for _, k := range slices.Sorted(maps.Keys(r.Header)) {
+		v := r.Header.Values(k)
 		fmt.Printf("%s: %s\n", k, strings.Join(v, ";"))
 	}
 	fmt.Println("------form-------")
